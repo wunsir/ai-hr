@@ -19,10 +19,10 @@ export function CaseFileQueue({
   onSelectCase,
 }: CaseFileQueueProps) {
   return (
-    <aside className="case-queue" aria-label="case file 复核队列">
+    <aside className="case-queue" aria-label="复核档案队列">
       <div className="section-heading">
         <span>复核队列</span>
-        <strong>3 个 case file</strong>
+        <strong>共 {cases.length} 个档案</strong>
       </div>
       <div className="case-list">
         {cases.map((caseFile) => {
@@ -40,7 +40,7 @@ export function CaseFileQueue({
             >
               <span className="case-file__top">
                 <span>
-                  <b>Case {caseFile.id}</b>
+                  <b>档案 {caseFile.id}</b>
                   <strong>{caseFile.candidateLabel}</strong>
                 </span>
                 <StatusBadge status={caseFile.calibrationStatus} />

@@ -78,7 +78,7 @@ export function EmployeeSupplement({ caseFile }: EmployeeSupplementProps) {
             </>
           ) : (
             <p className="empty-state">
-              点击生成后，系统会把员工自述整理成待确认线索；不会直接进入已验证证据。
+              员工自述会被整理成待确认线索，不会直接进入已验证证据。
             </p>
           )}
         </div>

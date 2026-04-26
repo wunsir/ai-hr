@@ -1,43 +1,55 @@
-import type { EvidenceFilter } from "../App";
+import type { EvidenceFilter, RoleView } from "../App";
 import type { CandidateCaseFile, CaseId, PromotionBatch } from "../types/calibration";
 import { BatchOverview } from "./BatchOverview";
-import { CandidateWorkspace } from "./CandidateWorkspace";
-import { CaseFileQueue } from "./CaseFileQueue";
-import { MaterialPackageRail } from "./MaterialPackageRail";
+import { CommitteeBriefing } from "./CommitteeBriefing";
+import { EmployeePortal } from "./EmployeePortal";
+import { HrReviewWorkspace } from "./HrReviewWorkspace";
+import { RoleSwitcher } from "./RoleSwitcher";
 import { SystemHeader } from "./SystemHeader";
 
 interface AppShellProps {
   batch: PromotionBatch;
   evidenceFilter: EvidenceFilter;
+  roleView: RoleView;
   selectedCase: CandidateCaseFile;
   onEvidenceFilterChange: (filter: EvidenceFilter) => void;
+  onRoleViewChange: (view: RoleView) => void;
   onSelectCase: (caseId: CaseId) => void;
 }
 
 export function AppShell({
   batch,
   evidenceFilter,
+  roleView,
   selectedCase,
   onEvidenceFilterChange,
+  onRoleViewChange,
   onSelectCase,
 }: AppShellProps) {
   return (
     <main className="app-shell">
       <SystemHeader batch={batch} />
-      <BatchOverview batch={batch} />
-      <div className="assessment-layout">
-        <CaseFileQueue
-          cases={batch.cases}
-          selectedCaseId={selectedCase.id}
+      <RoleSwitcher activeView={roleView} onChange={onRoleViewChange} />
+      {roleView === "hr" ? (
+        <>
+          <BatchOverview batch={batch} />
+          <HrReviewWorkspace
+            batch={batch}
+            evidenceFilter={evidenceFilter}
+            selectedCase={selectedCase}
+            onEvidenceFilterChange={onEvidenceFilterChange}
+            onSelectCase={onSelectCase}
+          />
+        </>
+      ) : null}
+      {roleView === "committee" ? (
+        <CommitteeBriefing
+          batch={batch}
+          selectedCase={selectedCase}
           onSelectCase={onSelectCase}
         />
-        <CandidateWorkspace
-          caseFile={selectedCase}
-          evidenceFilter={evidenceFilter}
-          onEvidenceFilterChange={onEvidenceFilterChange}
-        />
-        <MaterialPackageRail caseFile={selectedCase} />
-      </div>
+      ) : null}
+      {roleView === "employee" ? <EmployeePortal caseFile={batch.cases[1]} /> : null}
     </main>
   );
 }

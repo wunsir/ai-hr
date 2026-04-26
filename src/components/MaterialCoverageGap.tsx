@@ -11,7 +11,7 @@ export function MaterialCoverageGap({ items }: MaterialCoverageGapProps) {
       <div className="panel-header">
         <div>
           <span className="panel-kicker">材料覆盖盲区</span>
-          <h3>coverage ledger</h3>
+          <h3>材料覆盖表</h3>
         </div>
       </div>
       <p>

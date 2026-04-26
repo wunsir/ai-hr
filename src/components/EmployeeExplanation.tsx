@@ -7,7 +7,7 @@ interface EmployeeExplanationProps {
 export function EmployeeExplanation({ caseFile }: EmployeeExplanationProps) {
   return (
     <section className="panel employee-explanation">
-      <span className="panel-kicker">员工解释版预览</span>
+      <span className="panel-kicker">员工解释版</span>
       <h3>给员工的评估材料说明</h3>
       <p>{caseFile.employeeExplanation}</p>
       <p className="boundary-copy">

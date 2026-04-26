@@ -13,7 +13,7 @@ export function BatchOverview({ batch }: BatchOverviewProps) {
         <p>{batch.reviewBatch}</p>
       </div>
       <div className="batch-overview__items">
-        <span>{batch.overview.caseCount} 个 AI case file</span>
+        <span>{batch.overview.caseCount} 个复核档案</span>
         <span>{batch.overview.aiReviewStatus}</span>
         {batch.overview.riskDistribution.map((item) => (
           <span key={item}>{item}</span>

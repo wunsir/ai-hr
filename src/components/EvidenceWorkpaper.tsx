@@ -26,10 +26,10 @@ export function EvidenceWorkpaper({
     .sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
 
   return (
-    <section className="panel evidence-workpaper" aria-label="证据 workpaper">
+    <section className="panel evidence-workpaper" aria-label="证据表">
       <div className="panel-header">
         <div>
-          <span className="panel-kicker">证据 workpaper</span>
+          <span className="panel-kicker">证据表</span>
           <h3>来源、状态、缺失证据与材料包归属</h3>
         </div>
         <div className="filter-tabs" aria-label="证据状态筛选">

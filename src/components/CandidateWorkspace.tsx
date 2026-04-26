@@ -4,8 +4,6 @@ import { BoundaryNotice } from "./BoundaryNotice";
 import { CalibrationComparison } from "./CalibrationComparison";
 import { CalibrationPath } from "./CalibrationPath";
 import { CaseHeader } from "./CaseHeader";
-import { EmployeeExplanation } from "./EmployeeExplanation";
-import { EmployeeSupplement } from "./EmployeeSupplement";
 import { EvidenceWorkpaper } from "./EvidenceWorkpaper";
 import { MaterialCoverageGap } from "./MaterialCoverageGap";
 import { OriginalAssessment } from "./OriginalAssessment";
@@ -40,12 +38,6 @@ export function CandidateWorkspace({
         onFilterChange={onEvidenceFilterChange}
       />
       <ReviewPrompt caseFile={caseFile} />
-      {isDeepCase ? (
-        <>
-          <EmployeeExplanation caseFile={caseFile} />
-          <EmployeeSupplement caseFile={caseFile} />
-        </>
-      ) : null}
       <BoundaryNotice />
     </section>
   );

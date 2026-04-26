@@ -8,7 +8,7 @@ export function GovernanceRecord({ record }: GovernanceRecordProps) {
   return (
     <section className="governance-record">
       <span className="panel-kicker">治理记录</span>
-      <h2>轻量 trace</h2>
+      <h2>治理记录</h2>
       <dl>
         <div>
           <dt>AI 输出时间</dt>

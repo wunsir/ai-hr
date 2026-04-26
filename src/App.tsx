@@ -4,10 +4,12 @@ import { promotionBatch } from "./data/promotionBatch";
 import type { CaseId, EvidenceStatus } from "./types/calibration";
 
 export type EvidenceFilter = EvidenceStatus | "全部";
+export type RoleView = "hr" | "committee" | "employee";
 
 export default function App() {
   const [selectedCaseId, setSelectedCaseId] = useState<CaseId>("B");
   const [evidenceFilter, setEvidenceFilter] = useState<EvidenceFilter>("全部");
+  const [roleView, setRoleView] = useState<RoleView>("hr");
 
   const selectedCase = useMemo(
     () =>
@@ -25,8 +27,10 @@ export default function App() {
     <AppShell
       batch={promotionBatch}
       evidenceFilter={evidenceFilter}
+      roleView={roleView}
       selectedCase={selectedCase}
       onEvidenceFilterChange={setEvidenceFilter}
+      onRoleViewChange={setRoleView}
       onSelectCase={handleSelectCase}
     />
   );

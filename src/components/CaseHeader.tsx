@@ -9,7 +9,7 @@ export function CaseHeader({ caseFile }: CaseHeaderProps) {
   return (
     <section className="case-header">
       <div>
-        <span className="eyebrow">Case {caseFile.id} · {caseFile.roleContext}</span>
+        <span className="eyebrow">档案 {caseFile.id} · {caseFile.roleContext}</span>
         <h2>{caseFile.candidateLabel}</h2>
       </div>
       <div className="case-header__chips">
