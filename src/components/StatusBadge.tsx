@@ -1,7 +1,5 @@
-import type { EvidenceStatus } from "../types/calibration";
-
 interface StatusBadgeProps {
-  status: EvidenceStatus;
+  status: string;
 }
 
 export function StatusBadge({ status }: StatusBadgeProps) {

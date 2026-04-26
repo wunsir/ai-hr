@@ -2,3 +2,5 @@ node_modules/
 dist/
 .vite/
 coverage/
+vite-dev.log
+.playwright-mcp/

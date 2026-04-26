@@ -1,33 +1,33 @@
 import { useMemo, useState } from "react";
 import { AppShell } from "./components/AppShell";
-import { candidates } from "./data/candidates";
-import type { CandidateId, EvidenceStatus } from "./types/calibration";
+import { promotionBatch } from "./data/promotionBatch";
+import type { CaseId, EvidenceStatus } from "./types/calibration";
 
 export type EvidenceFilter = EvidenceStatus | "全部";
 
 export default function App() {
-  const [selectedCandidateId, setSelectedCandidateId] = useState<CandidateId>("B");
+  const [selectedCaseId, setSelectedCaseId] = useState<CaseId>("B");
   const [evidenceFilter, setEvidenceFilter] = useState<EvidenceFilter>("全部");
 
-  const selectedCandidate = useMemo(
+  const selectedCase = useMemo(
     () =>
-      candidates.find((candidate) => candidate.id === selectedCandidateId) ??
-      candidates[1],
-    [selectedCandidateId],
+      promotionBatch.cases.find((caseFile) => caseFile.id === selectedCaseId) ??
+      promotionBatch.cases[1],
+    [selectedCaseId],
   );
 
-  const handleSelectCandidate = (candidateId: CandidateId) => {
-    setSelectedCandidateId(candidateId);
+  const handleSelectCase = (caseId: CaseId) => {
+    setSelectedCaseId(caseId);
     setEvidenceFilter("全部");
   };
 
   return (
     <AppShell
-      candidates={candidates}
+      batch={promotionBatch}
       evidenceFilter={evidenceFilter}
-      selectedCandidate={selectedCandidate}
-      onSelectCandidate={handleSelectCandidate}
-      onSetEvidenceFilter={setEvidenceFilter}
+      selectedCase={selectedCase}
+      onEvidenceFilterChange={setEvidenceFilter}
+      onSelectCase={handleSelectCase}
     />
   );
 }

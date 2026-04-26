@@ -1,40 +1,42 @@
 import type { EvidenceFilter } from "../App";
-import type { Candidate, CandidateId } from "../types/calibration";
-import { CandidateDetail } from "./CandidateDetail";
-import { CandidateRail } from "./CandidateRail";
-import { HeaderBar } from "./HeaderBar";
-import { ReviewerSummaryPanel } from "./ReviewerSummaryPanel";
+import type { CandidateCaseFile, CaseId, PromotionBatch } from "../types/calibration";
+import { BatchOverview } from "./BatchOverview";
+import { CandidateWorkspace } from "./CandidateWorkspace";
+import { CaseFileQueue } from "./CaseFileQueue";
+import { MaterialPackageRail } from "./MaterialPackageRail";
+import { SystemHeader } from "./SystemHeader";
 
 interface AppShellProps {
-  candidates: Candidate[];
+  batch: PromotionBatch;
   evidenceFilter: EvidenceFilter;
-  selectedCandidate: Candidate;
-  onSelectCandidate: (candidateId: CandidateId) => void;
-  onSetEvidenceFilter: (filter: EvidenceFilter) => void;
+  selectedCase: CandidateCaseFile;
+  onEvidenceFilterChange: (filter: EvidenceFilter) => void;
+  onSelectCase: (caseId: CaseId) => void;
 }
 
 export function AppShell({
-  candidates,
+  batch,
   evidenceFilter,
-  selectedCandidate,
-  onSelectCandidate,
-  onSetEvidenceFilter,
+  selectedCase,
+  onEvidenceFilterChange,
+  onSelectCase,
 }: AppShellProps) {
   return (
     <main className="app-shell">
-      <HeaderBar />
-      <div className="workbench">
-        <CandidateRail
-          candidates={candidates}
-          selectedCandidateId={selectedCandidate.id}
-          onSelectCandidate={onSelectCandidate}
+      <SystemHeader batch={batch} />
+      <BatchOverview batch={batch} />
+      <div className="assessment-layout">
+        <CaseFileQueue
+          cases={batch.cases}
+          selectedCaseId={selectedCase.id}
+          onSelectCase={onSelectCase}
         />
-        <CandidateDetail
-          candidate={selectedCandidate}
+        <CandidateWorkspace
+          caseFile={selectedCase}
           evidenceFilter={evidenceFilter}
-          onSetEvidenceFilter={onSetEvidenceFilter}
+          onEvidenceFilterChange={onEvidenceFilterChange}
         />
-        <ReviewerSummaryPanel candidate={selectedCandidate} />
+        <MaterialPackageRail caseFile={selectedCase} />
       </div>
     </main>
   );
