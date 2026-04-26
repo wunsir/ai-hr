@@ -32,6 +32,17 @@ export function CandidateDetail({
           {candidate.scenario}
         </span>
       </div>
+      {isDeepCase ? (
+        <div className="closed-loop-signpost" aria-label="候选人 B 闭环路径">
+          <span className="panel-kicker">闭环路径</span>
+          <strong>
+            原 AI 评估 → 隐性贡献证据 → 员工补充待确认线索 → 人工复核边界
+          </strong>
+          <p>
+            当前页面覆盖评审侧和员工补充侧的完整链路；员工自述只进入待确认线索，不直接改变原 AI 建议。
+          </p>
+        </div>
+      ) : null}
 
       <OriginalAssessment assessment={candidate.originalAssessment} />
       <CalibrationComparison comparison={candidate.comparison} />
@@ -41,7 +52,7 @@ export function CandidateDetail({
         isCondensed={!isDeepCase}
         onSetFilter={onSetEvidenceFilter}
       />
-      <ReviewPrompt prompt={candidate.reviewPrompt} />
+      <ReviewPrompt prompt={candidate.reviewPrompt} scenario={candidate.scenario} />
       {isDeepCase ? (
         <>
           <EmployeeExplanation candidate={candidate} />

@@ -14,6 +14,9 @@ describe("EmployeeSupplement", () => {
     expect(screen.getByText("已整理为待确认线索")).toBeInTheDocument();
     expect(screen.getByText(/当前状态/)).toBeInTheDocument();
     expect(screen.getAllByText(/待确认/).length).toBeGreaterThan(0);
+    expect(
+      screen.getByText(/不会直接进入已验证证据/),
+    ).toBeInTheDocument();
     expect(screen.queryByText(/已采纳/)).not.toBeInTheDocument();
   });
 });

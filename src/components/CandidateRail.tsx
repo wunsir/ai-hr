@@ -1,3 +1,4 @@
+import { CheckCircle2 } from "lucide-react";
 import type { Candidate, CandidateId } from "../types/calibration";
 
 interface CandidateRailProps {
@@ -33,7 +34,15 @@ export function CandidateRail({
             >
               <span className="candidate-card__top">
                 <strong>{candidate.label}</strong>
-                <span className="scenario-tag">{candidate.scenario}</span>
+                <span className="candidate-card__state">
+                  {isSelected ? (
+                    <span className="selected-indicator" aria-label="当前选中">
+                      <CheckCircle2 aria-hidden="true" size={14} />
+                      当前
+                    </span>
+                  ) : null}
+                  <span className="scenario-tag">{candidate.scenario}</span>
+                </span>
               </span>
               <span className="rail-row">
                 <b>原 AI 建议</b>

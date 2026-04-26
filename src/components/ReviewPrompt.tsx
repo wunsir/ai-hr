@@ -2,14 +2,21 @@ import type { Candidate } from "../types/calibration";
 
 interface ReviewPromptProps {
   prompt: Candidate["reviewPrompt"];
+  scenario: Candidate["scenario"];
 }
 
-export function ReviewPrompt({ prompt }: ReviewPromptProps) {
+const kickerByScenario: Record<Candidate["scenario"], string> = {
+  维持推荐: "复核提示 / 维持推荐",
+  低估风险: "复核提示 / 低估风险",
+  补充评审: "复核提示 / 补充评审",
+};
+
+export function ReviewPrompt({ prompt, scenario }: ReviewPromptProps) {
   return (
     <section className="panel review-prompt">
       <div className="prompt-title-row">
         <div>
-          <span className="panel-kicker">低估风险 / 复核提示</span>
+          <span className="panel-kicker">{kickerByScenario[scenario]}</span>
           <h3>{prompt.title}</h3>
         </div>
         <span className="priority-tag">复核优先级：{prompt.priority}</span>

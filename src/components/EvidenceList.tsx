@@ -49,6 +49,13 @@ export function EvidenceList({
           ))}
         </div>
       </div>
+      <div className="evidence-workpaper-head" aria-hidden="true">
+        <span>贡献维度</span>
+        <span>证据摘要</span>
+        <span>来源</span>
+        <span>状态</span>
+        <span>需要动作</span>
+      </div>
       <div className="evidence-list">
         {visibleEvidence.map((item) => (
           <EvidenceItem item={item} key={item.id} />

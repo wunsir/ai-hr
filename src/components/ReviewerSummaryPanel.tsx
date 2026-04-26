@@ -4,6 +4,24 @@ interface ReviewerSummaryPanelProps {
   candidate: Candidate;
 }
 
+const verifiedHeadingByScenario: Record<Candidate["scenario"], string> = {
+  维持推荐: "已验证材料充分",
+  低估风险: "已验证证据",
+  补充评审: "已验证证据",
+};
+
+const pendingHeadingByScenario: Record<Candidate["scenario"], string> = {
+  维持推荐: "无明显新增复核风险",
+  低估风险: "待确认线索",
+  补充评审: "补充评审问题",
+};
+
+const pendingNoteByScenario: Record<Candidate["scenario"], string> = {
+  维持推荐: "当前仅保留可选补充材料，校准助手未提示需要改变讨论重点。",
+  低估风险: "需复核来源后才可纳入评审事实。",
+  补充评审: "这些问题用于补充确认，不是否定原 AI 推荐。",
+};
+
 export function ReviewerSummaryPanel({ candidate }: ReviewerSummaryPanelProps) {
   return (
     <aside className="reviewer-panel" aria-label="评审委员会材料">
@@ -13,8 +31,8 @@ export function ReviewerSummaryPanel({ candidate }: ReviewerSummaryPanelProps) {
         <p>{candidate.reviewerSummary.boundary}</p>
       </section>
 
-      <section>
-        <h3>可采纳证据</h3>
+      <section className="summary-section summary-section--verified">
+        <h3>{verifiedHeadingByScenario[candidate.scenario]}</h3>
         <ul className="compact-list">
           {candidate.reviewerSummary.adoptableEvidence.map((item) => (
             <li key={item}>{item}</li>
@@ -22,8 +40,9 @@ export function ReviewerSummaryPanel({ candidate }: ReviewerSummaryPanelProps) {
         </ul>
       </section>
 
-      <section>
-        <h3>待确认线索</h3>
+      <section className="summary-section summary-section--pending">
+        <h3>{pendingHeadingByScenario[candidate.scenario]}</h3>
+        <p className="summary-note">{pendingNoteByScenario[candidate.scenario]}</p>
         <ul className="compact-list">
           {candidate.reviewerSummary.unconfirmedClues.map((item) => (
             <li key={item}>{item}</li>

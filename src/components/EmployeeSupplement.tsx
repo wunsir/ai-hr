@@ -72,7 +72,9 @@ export function EmployeeSupplement({ candidate }: EmployeeSupplementProps) {
                   <dd>{supplement.structured.suggestedSources.join("、")}</dd>
                 </div>
               </dl>
-              <p className="boundary-copy">{supplement.missingEvidenceHint}</p>
+              <p className="boundary-copy">
+                {supplement.missingEvidenceHint} 员工补充不会直接进入已验证证据。
+              </p>
             </>
           ) : (
             <p className="empty-state">
