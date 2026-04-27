@@ -20,7 +20,7 @@ describe("promotion assessment center AI calibration module", () => {
       "true",
     );
     expect(screen.getAllByText("材料覆盖盲区").length).toBeGreaterThan(0);
-    expect(screen.getByText("人工复核材料")).toBeInTheDocument();
+    expect(screen.getAllByText("AI 评审材料包").length).toBeGreaterThan(0);
     expect(screen.queryByText("员工补充入口")).not.toBeInTheDocument();
   });
 
@@ -75,6 +75,7 @@ describe("promotion assessment center AI calibration module", () => {
 
     await userEvent.click(screen.getByRole("button", { name: /档案 C/ }));
     expect(screen.getByLabelText("候选人 C AI 校准工作台")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: /复核提示/ }));
     expect(screen.getByText("补充评审用于完善材料结构，不是否定原推荐，也不是负面裁定。")).toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: "生成待确认线索" }),

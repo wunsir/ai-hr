@@ -3,8 +3,10 @@ import type { CandidateCaseFile, CaseId, PromotionBatch } from "../types/calibra
 import { BatchOverview } from "./BatchOverview";
 import { CommitteeBriefing } from "./CommitteeBriefing";
 import { EmployeePortal } from "./EmployeePortal";
+import { FloatingAssistant } from "./FloatingAssistant";
 import { HrReviewWorkspace } from "./HrReviewWorkspace";
 import { RoleSwitcher } from "./RoleSwitcher";
+import { SystemActions } from "./SystemActions";
 import { SystemHeader } from "./SystemHeader";
 
 interface AppShellProps {
@@ -30,6 +32,7 @@ export function AppShell({
     <main className="app-shell">
       <SystemHeader batch={batch} />
       <RoleSwitcher activeView={roleView} onChange={onRoleViewChange} />
+      <SystemActions />
       {roleView === "hr" ? (
         <>
           <BatchOverview batch={batch} />
@@ -50,6 +53,7 @@ export function AppShell({
         />
       ) : null}
       {roleView === "employee" ? <EmployeePortal caseFile={batch.cases[1]} /> : null}
+      <FloatingAssistant />
     </main>
   );
 }
