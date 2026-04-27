@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import type { EvidenceFilter } from "../App";
 import type { EvidenceItem } from "../types/calibration";
 import { EvidenceRow } from "./EvidenceRow";
@@ -21,16 +22,27 @@ export function EvidenceWorkpaper({
   filter,
   onFilterChange,
 }: EvidenceWorkpaperProps) {
-  const visibleEvidence = evidence
-    .filter((item) => filter === "全部" || item.status === filter)
-    .sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
+  const visibleEvidence = useMemo(
+    () =>
+      evidence
+        .filter((item) => filter === "全部" || item.status === filter)
+        .sort((a, b) => statusOrder[a.status] - statusOrder[b.status]),
+    [evidence, filter],
+  );
+  const [expandedId, setExpandedId] = useState<string | null>(
+    () => visibleEvidence[0]?.id ?? null,
+  );
+  const activeExpandedId =
+    visibleEvidence.some((item) => item.id === expandedId)
+      ? expandedId
+      : visibleEvidence[0]?.id ?? null;
 
   return (
     <section className="panel evidence-workpaper" aria-label="证据表">
       <div className="panel-header">
         <div>
-          <span className="panel-kicker">证据表</span>
-          <h3>来源、状态、缺失证据与材料包归属</h3>
+          <span className="panel-kicker">证据列表</span>
+          <h3>隐性贡献证据</h3>
         </div>
         <div className="filter-tabs" aria-label="证据状态筛选">
           {filters.map((item) => (
@@ -45,18 +57,16 @@ export function EvidenceWorkpaper({
           ))}
         </div>
       </div>
-      <div className="workpaper-table">
-        <div className="workpaper-head">
-          <span>维度</span>
-          <span>可评审事实</span>
-          <span>来源与片段</span>
-          <span>状态</span>
-          <span>缺失证据</span>
-          <span>下一步动作</span>
-          <span>材料包</span>
-        </div>
+      <div className="evidence-list">
         {visibleEvidence.map((item) => (
-          <EvidenceRow item={item} key={item.id} />
+          <EvidenceRow
+            isExpanded={item.id === activeExpandedId}
+            item={item}
+            key={item.id}
+            onToggle={() =>
+              setExpandedId((currentId) => (currentId === item.id ? null : item.id))
+            }
+          />
         ))}
       </div>
       {visibleEvidence.length === 0 ? (

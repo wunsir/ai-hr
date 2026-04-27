@@ -12,11 +12,11 @@ export function MaterialPackageTabs({ caseFile }: MaterialPackageTabsProps) {
   const materialPackage = caseFile.materialPackage;
 
   return (
-    <section className="material-package">
-      <div>
+    <section className="material-package inspector-panel">
+      <header className="inspector-head">
         <span className="panel-kicker">AI 评审材料包</span>
-        <h2>{caseFile.candidateLabel}</h2>
-      </div>
+        <strong>{caseFile.candidateLabel}</strong>
+      </header>
       <div className="package-tabs" aria-label="材料包视角">
         <button
           className={packageView === "reviewer" ? "is-active" : ""}
@@ -42,37 +42,40 @@ export function MaterialPackageTabs({ caseFile }: MaterialPackageTabsProps) {
       </div>
 
       {packageView === "reviewer" ? (
-        <div className="package-view">
-          <h3>补充评估摘要</h3>
-          <p>{materialPackage.reviewerVersion.summary}</p>
-          <h3>已验证证据</h3>
+        <div className="package-view inspector-sections">
+          <section>
+            <h3>本次可讨论</h3>
+            <p>{materialPackage.reviewerVersion.summary}</p>
+          </section>
           <ul className="compact-list">
-            {materialPackage.reviewerVersion.verifiedEvidence.map((item) => (
+            {materialPackage.reviewerVersion.verifiedEvidence.slice(0, 3).map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <h3>待确认线索</h3>
+          <section>
+            <h3>需要确认</h3>
+          </section>
           <ul className="compact-list">
-            {materialPackage.reviewerVersion.unconfirmedClues.map((item) => (
+            {materialPackage.reviewerVersion.unconfirmedClues.slice(0, 2).map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <h3>建议追问问题</h3>
-          <div className="question-list">
-            {materialPackage.reviewerVersion.questions.map((question) => (
-              <article className="question-item" key={question.id}>
-                <strong>向{question.askWhom}确认</strong>
-                <p>{question.question}</p>
-                <span>{question.reason}</span>
-              </article>
+          <section>
+            <h3>建议追问</h3>
+          </section>
+          <ol className="inspector-questions">
+            {materialPackage.reviewerVersion.questions.slice(0, 3).map((question) => (
+              <li key={question.id}>
+                向{question.askWhom}确认：{question.question}
+              </li>
             ))}
-          </div>
+          </ol>
           <p className="boundary-copy">{materialPackage.reviewerVersion.reminder}</p>
         </div>
       ) : null}
 
       {packageView === "employee" ? (
-        <div className="package-view">
+        <div className="package-view inspector-sections">
           <h3>员工解释</h3>
           <p>{materialPackage.employeeVersion.explanation}</p>
           <h3>系统看到了哪些材料</h3>
@@ -94,7 +97,7 @@ export function MaterialPackageTabs({ caseFile }: MaterialPackageTabsProps) {
       ) : null}
 
       {packageView === "humanReview" ? (
-        <div className="package-view">
+        <div className="package-view inspector-sections">
           <h3>AI 不能确认的事项</h3>
           <ul className="compact-list">
             {materialPackage.humanReviewVersion.cannotConfirm.map((item) => (

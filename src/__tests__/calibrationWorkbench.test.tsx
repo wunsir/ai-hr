@@ -22,7 +22,7 @@ describe("promotion assessment center AI calibration module", () => {
       "aria-pressed",
       "true",
     );
-    expect(screen.getByRole("button", { name: "隐性贡献证据" })).toHaveAttribute(
+    expect(screen.getByRole("button", { name: "贡献证据" })).toHaveAttribute(
       "aria-pressed",
       "true",
     );
@@ -30,15 +30,20 @@ describe("promotion assessment center AI calibration module", () => {
     expect(screen.queryByText("员工补充入口")).not.toBeInTheDocument();
   });
 
-  it("renders candidate B evidence table with missing evidence and package destinations", () => {
+  it("renders candidate B evidence list with expandable details", async () => {
     render(<App />);
 
     const workpaper = screen.getByLabelText("证据表");
 
-    expect(within(workpaper).getByText("缺失证据")).toBeInTheDocument();
-    expect(within(workpaper).getByText("材料包")).toBeInTheDocument();
-    expect(within(workpaper).getByText("影响范围和排期口径")).toBeInTheDocument();
-    expect(within(workpaper).getAllByText("人工复核版").length).toBeGreaterThan(0);
+    expect(within(workpaper).getByRole("heading", { name: "隐性贡献证据" })).toBeInTheDocument();
+    expect(within(workpaper).getAllByRole("article").length).toBe(5);
+    expect(within(workpaper).getByText("mentor 记录、主管反馈")).toBeInTheDocument();
+    expect(within(workpaper).getAllByText("评审委员版").length).toBeGreaterThan(0);
+    expect(within(workpaper).queryByText("持续引用频率可补充")).not.toBeInTheDocument();
+
+    await userEvent.click(within(workpaper).getByRole("button", { name: /异常归因手册/ }));
+
+    expect(within(workpaper).getByText("持续引用频率可补充")).toBeInTheDocument();
   });
 
   it("switches to the committee briefing without exposing employee input or governance details", async () => {
@@ -54,6 +59,17 @@ describe("promotion assessment center AI calibration module", () => {
     expect(screen.getByText("建议追问")).toBeInTheDocument();
     expect(screen.queryByText("员工补充入口")).not.toBeInTheDocument();
     expect(screen.queryByText("治理记录")).not.toBeInTheDocument();
+  });
+
+  it("keeps the material rail focused as a reviewer inspector", () => {
+    render(<App />);
+
+    const rail = screen.getByLabelText("人工复核材料与治理记录");
+
+    expect(within(rail).getByText("本次可讨论")).toBeInTheDocument();
+    expect(within(rail).getByText("需要确认")).toBeInTheDocument();
+    expect(within(rail).getByText("建议追问")).toBeInTheDocument();
+    expect(within(rail).queryByRole("heading", { name: "候选人 B" })).not.toBeInTheDocument();
   });
 
   it("switches to the employee portal without exposing review queue or committee prompts", async () => {
@@ -142,6 +158,9 @@ describe("promotion assessment center AI calibration module", () => {
       "仅为演示配置",
       "不发起真实模型调用",
       "保存演示配置",
+      "来源、状态、缺失证据与材料包归属",
+      "材料结构导航",
+      "员工补充待确认线索人工复核边界",
     ];
 
     for (const term of blockedTerms) {

@@ -364,11 +364,9 @@ button {
 .material-rail,
 .panel,
 .case-header,
-.calibration-path,
 .boundary-notice {
-  border: 1px solid oklch(86% 0.014 255);
-  border-radius: 8px;
-  background: oklch(98.5% 0.004 255);
+  border-top: 1px solid oklch(88% 0.012 255);
+  background: transparent;
 }
 
 .case-queue,
@@ -479,7 +477,6 @@ button {
 .candidate-workspace > *,
 .case-header > *,
 .case-header__chips,
-.calibration-path,
 .panel,
 .boundary-notice,
 .material-rail,
@@ -516,23 +513,6 @@ button {
   margin: 0;
   border-top: 1px solid oklch(90% 0.01 255);
   padding-top: 12px;
-}
-
-.calibration-path {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 12px;
-}
-
-.calibration-path span {
-  border: 1px solid oklch(86% 0.014 255);
-  border-radius: 6px;
-  padding: 5px 8px;
-  color: oklch(42% 0.023 255);
-  background: oklch(97% 0.006 255);
-  font-size: 12px;
-  font-weight: 650;
 }
 
 .workspace-menu {
@@ -657,7 +637,7 @@ button {
 .workspace-submenu button {
   border: 1px solid transparent;
   border-radius: 999px;
-  padding: 5px 9px;
+  padding: 4px 8px;
   color: oklch(42% 0.02 255);
   background: transparent;
   font-size: 12px;
@@ -696,9 +676,22 @@ button {
   margin: 5px 0 0;
 }
 
-.panel,
-.boundary-notice {
+.panel {
   padding: 16px;
+}
+
+.boundary-notice {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  padding: 10px 2px 0;
+  color: oklch(45% 0.018 255);
+  font-size: 12px;
+}
+
+.boundary-notice strong {
+  color: oklch(30% 0.03 255);
 }
 
 .panel h3,
@@ -750,6 +743,62 @@ button {
   gap: 7px;
 }
 
+.inspector-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.inspector-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.inspector-head strong {
+  color: oklch(26% 0.03 255);
+  font-size: 14px;
+}
+
+.inspector-sections {
+  gap: 10px;
+}
+
+.inspector-sections section {
+  display: grid;
+  gap: 4px;
+}
+
+.inspector-sections p {
+  margin: 0;
+}
+
+.inspector-questions {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: oklch(38% 0.023 255);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.governance-details {
+  border-top: 1px solid oklch(90% 0.01 255);
+  padding-top: 8px;
+}
+
+.governance-details summary {
+  color: oklch(35% 0.035 255);
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.governance-details dl {
+  margin-top: 10px;
+}
+
 .boundary-copy {
   margin-top: 12px !important;
   border-top: 1px solid oklch(90% 0.01 255);
@@ -766,6 +815,73 @@ button {
   border: 1px solid oklch(88% 0.012 255);
   border-radius: 8px;
   overflow: hidden;
+}
+
+.evidence-list {
+  display: grid;
+  gap: 8px;
+}
+
+.evidence-item {
+  overflow: hidden;
+  border: 1px solid oklch(87% 0.012 255);
+  border-radius: 8px;
+  background: oklch(98.5% 0.004 255);
+}
+
+.evidence-item__summary {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(82px, auto) minmax(0, 1fr) auto minmax(130px, 0.45fr);
+  gap: 10px;
+  align-items: center;
+  border: 0;
+  padding: 12px;
+  color: oklch(33% 0.025 255);
+  background: transparent;
+  text-align: left;
+}
+
+.evidence-item__summary strong {
+  color: oklch(27% 0.03 255);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.evidence-item__action {
+  color: oklch(43% 0.02 255);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.evidence-item__details {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(120px, 0.75fr) minmax(120px, 0.75fr);
+  gap: 10px;
+  margin: 0;
+  border-top: 1px solid oklch(90% 0.01 255);
+  padding: 10px 12px 12px;
+  background: oklch(97% 0.006 255);
+}
+
+.evidence-item__details div {
+  display: grid;
+  gap: 4px;
+}
+
+.evidence-item__details dt {
+  color: oklch(48% 0.018 255);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.evidence-item__details dd {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  color: oklch(35% 0.023 255);
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .coverage-table__head,
@@ -1362,7 +1478,9 @@ button {
   .coverage-table__head,
   .coverage-table__row,
   .workpaper-head,
-  .workpaper-row {
+  .workpaper-row,
+  .evidence-item__summary,
+  .evidence-item__details {
     grid-template-columns: 1fr;
   }
 

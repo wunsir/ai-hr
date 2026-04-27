@@ -3,7 +3,6 @@ import type { EvidenceFilter } from "../App";
 import type { CandidateCaseFile } from "../types/calibration";
 import { BoundaryNotice } from "./BoundaryNotice";
 import { CalibrationComparison } from "./CalibrationComparison";
-import { CalibrationPath } from "./CalibrationPath";
 import { CaseHeader } from "./CaseHeader";
 import { EvidenceWorkpaper } from "./EvidenceWorkpaper";
 import { MaterialCoverageGap } from "./MaterialCoverageGap";
@@ -26,8 +25,7 @@ type SecondarySection =
   | "risk"
   | "reviewSummary"
   | "questions"
-  | "unconfirmed"
-  | "boundary";
+  | "unconfirmed";
 
 interface DirectoryGroup {
   id: PrimarySection;
@@ -42,8 +40,8 @@ const deepDirectory: DirectoryGroup[] = [
     label: "原评估材料",
     description: "原系统依据与覆盖范围",
     items: [
-      { id: "original", label: "原 AI 评估" },
-      { id: "comparison", label: "原评估 vs 补看点" },
+      { id: "original", label: "原评估" },
+      { id: "comparison", label: "对比" },
     ],
   },
   {
@@ -52,7 +50,7 @@ const deepDirectory: DirectoryGroup[] = [
     description: "材料覆盖、隐性证据与复核提示",
     items: [
       { id: "coverage", label: "材料覆盖" },
-      { id: "evidence", label: "隐性贡献证据" },
+      { id: "evidence", label: "贡献证据" },
       { id: "risk", label: "复核提示" },
     ],
   },
@@ -61,10 +59,9 @@ const deepDirectory: DirectoryGroup[] = [
     label: "人工复核",
     description: "会议材料、追问与边界",
     items: [
-      { id: "reviewSummary", label: "评审摘要" },
-      { id: "questions", label: "建议追问" },
-      { id: "unconfirmed", label: "未确认事项" },
-      { id: "boundary", label: "边界说明" },
+      { id: "reviewSummary", label: "摘要" },
+      { id: "questions", label: "追问" },
+      { id: "unconfirmed", label: "未确认" },
     ],
   },
 ];
@@ -124,7 +121,6 @@ export function CandidateWorkspace({
       aria-label={`${caseFile.candidateLabel} AI 校准工作台`}
     >
       <CaseHeader caseFile={caseFile} />
-      <CalibrationPath isDeepCase={isDeepCase} />
       <div className="workspace-browser">
         <nav className="workspace-directory" aria-label="档案目录">
           {directory.map((group) => (
@@ -186,11 +182,10 @@ export function CandidateWorkspace({
             {activeSecondary === "unconfirmed" ? (
               <UnconfirmedView caseFile={caseFile} />
             ) : null}
-            {activeSecondary === "boundary" ? <BoundaryNotice /> : null}
           </div>
         </section>
       </div>
-      {activeSecondary !== "boundary" ? <BoundaryNotice /> : null}
+      <BoundaryNotice />
     </section>
   );
 }
