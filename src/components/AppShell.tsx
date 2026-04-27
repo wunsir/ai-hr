@@ -5,7 +5,6 @@ import { CommitteeBriefing } from "./CommitteeBriefing";
 import { EmployeePortal } from "./EmployeePortal";
 import { FloatingAssistant } from "./FloatingAssistant";
 import { HrReviewWorkspace } from "./HrReviewWorkspace";
-import { RoleSwitcher } from "./RoleSwitcher";
 import { SystemActions } from "./SystemActions";
 import { SystemHeader } from "./SystemHeader";
 
@@ -30,8 +29,11 @@ export function AppShell({
 }: AppShellProps) {
   return (
     <main className="app-shell">
-      <SystemHeader batch={batch} />
-      <RoleSwitcher activeView={roleView} onChange={onRoleViewChange} />
+      <SystemHeader
+        batch={batch}
+        activeView={roleView}
+        onRoleViewChange={onRoleViewChange}
+      />
       <SystemActions />
       {roleView === "hr" ? (
         <>

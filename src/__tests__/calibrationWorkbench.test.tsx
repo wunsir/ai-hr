@@ -8,9 +8,8 @@ describe("promotion assessment center AI calibration module", () => {
 
     expect(screen.getByText("晋升评估中心")).toBeInTheDocument();
     expect(screen.getByText("AI 校准")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "HR 复核工作台" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
+    expect(screen.getByRole("button", { name: "切换权限上下文" })).toHaveTextContent(
+      "当前权限：HRBP 复核",
     );
     expect(screen.getAllByText("2026 H1 技术序列").length).toBeGreaterThan(0);
     expect(screen.getAllByText("P6 到 P7 晋升复核批次").length).toBeGreaterThan(0);
@@ -19,7 +18,14 @@ describe("promotion assessment center AI calibration module", () => {
       "aria-pressed",
       "true",
     );
-    expect(screen.getAllByText("材料覆盖盲区").length).toBeGreaterThan(0);
+    expect(screen.getByRole("button", { name: /AI 校准材料/ })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(screen.getByRole("button", { name: "隐性贡献证据" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
     expect(screen.getAllByText("AI 评审材料包").length).toBeGreaterThan(0);
     expect(screen.queryByText("员工补充入口")).not.toBeInTheDocument();
   });
@@ -38,7 +44,8 @@ describe("promotion assessment center AI calibration module", () => {
   it("switches to the committee briefing without exposing employee input or governance details", async () => {
     render(<App />);
 
-    await userEvent.click(screen.getByRole("button", { name: "评审委员会材料" }));
+    await userEvent.click(screen.getByRole("button", { name: "切换权限上下文" }));
+    await userEvent.click(screen.getByRole("button", { name: "评审委员" }));
 
     expect(screen.getByRole("heading", { name: "评审委员会材料" })).toBeInTheDocument();
     expect(screen.getByText("补充评估摘要")).toBeInTheDocument();
@@ -52,7 +59,8 @@ describe("promotion assessment center AI calibration module", () => {
   it("switches to the employee portal without exposing review queue or committee prompts", async () => {
     render(<App />);
 
-    await userEvent.click(screen.getByRole("button", { name: "员工解释与补充" }));
+    await userEvent.click(screen.getByRole("button", { name: "切换权限上下文" }));
+    await userEvent.click(screen.getByRole("button", { name: "员工视图预览" }));
 
     expect(screen.getByRole("heading", { name: "员工解释与补充" })).toBeInTheDocument();
     expect(screen.getByText("员工补充入口")).toBeInTheDocument();
@@ -68,15 +76,17 @@ describe("promotion assessment center AI calibration module", () => {
 
     await userEvent.click(screen.getByRole("button", { name: /档案 A/ }));
     expect(screen.getByLabelText("候选人 A AI 校准工作台")).toBeInTheDocument();
-    expect(screen.getByText("维持原讨论重点")).toBeInTheDocument();
+    expect(screen.getAllByText("维持原讨论重点").length).toBeGreaterThan(0);
     expect(
       screen.queryByRole("button", { name: "生成待确认线索" }),
     ).not.toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: /档案 C/ }));
-    expect(screen.getByLabelText("候选人 C AI 校准工作台")).toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: /复核提示/ }));
-    expect(screen.getByText("补充评审用于完善材料结构，不是否定原推荐，也不是负面裁定。")).toBeInTheDocument();
+    const candidateCWorkspace = screen.getByLabelText("候选人 C AI 校准工作台");
+    expect(candidateCWorkspace).toBeInTheDocument();
+    await userEvent.click(within(candidateCWorkspace).getByRole("button", { name: /人工复核/ }));
+    await userEvent.click(within(candidateCWorkspace).getByRole("button", { name: /复核提示/ }));
+    expect(within(candidateCWorkspace).getByText("补充评审用于完善材料结构，不是否定原推荐，也不是负面裁定。")).toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: "生成待确认线索" }),
     ).not.toBeInTheDocument();
@@ -85,15 +95,34 @@ describe("promotion assessment center AI calibration module", () => {
   it("generates candidate B employee supplement as a pending clue", async () => {
     render(<App />);
 
-    await userEvent.click(screen.getByRole("button", { name: "员工解释与补充" }));
+    await userEvent.click(screen.getByRole("button", { name: "切换权限上下文" }));
+    await userEvent.click(screen.getByRole("button", { name: "员工视图预览" }));
     await userEvent.click(screen.getByRole("button", { name: "生成待确认线索" }));
 
     expect(screen.getByText("已整理为待确认线索")).toBeInTheDocument();
     expect(screen.getByText(/员工自述，未验证，不直接进入评审事实/)).toBeInTheDocument();
   });
 
-  it("does not expose implementation-language copy in the visible interface", () => {
+  it("opens, closes, docks, and reopens the calibration assistant", async () => {
     render(<App />);
+
+    await userEvent.click(screen.getByRole("button", { name: "打开校准助手" }));
+
+    expect(screen.getByText("候选人 B 的低估风险来源是什么？")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "关闭助手" }));
+    expect(screen.getByRole("button", { name: "打开校准助手" })).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "打开校准助手" }));
+    await userEvent.click(screen.getByRole("button", { name: "收纳助手" }));
+    expect(screen.getByRole("button", { name: "展开校准助手" })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "展开校准助手" }));
+    expect(screen.getByRole("button", { name: "关闭助手" })).toBeInTheDocument();
+  });
+
+  it("does not expose implementation-language copy in the visible interface", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "AI API 设置" }));
+    await userEvent.click(screen.getByRole("button", { name: "打开校准助手" }));
 
     const visibleText = document.body.textContent ?? "";
     const blockedTerms = [
@@ -108,6 +137,11 @@ describe("promotion assessment center AI calibration module", () => {
       "自动晋升",
       "提交审批",
       "驳回",
+      "演示模式",
+      "不连接真实对话",
+      "仅为演示配置",
+      "不发起真实模型调用",
+      "保存演示配置",
     ];
 
     for (const term of blockedTerms) {

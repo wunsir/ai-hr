@@ -41,7 +41,7 @@ export function SystemActions() {
         <div className="system-actions__panel">
           <div>
             <strong>材料导入预检</strong>
-            <p>演示状态：已识别 7 类材料，员工自述默认进入待确认线索。</p>
+            <p>已识别 7 类材料，员工自述默认进入待确认线索。</p>
           </div>
           <div className="system-actions__dropzone">
             <Upload size={18} aria-hidden="true" />
@@ -55,7 +55,7 @@ export function SystemActions() {
         <div className="system-actions__panel">
           <div>
             <strong>AI 校准 API</strong>
-            <p>仅为演示配置，不发起真实模型调用。</p>
+            <p>企业 AI 网关 · 批次材料解析配置</p>
           </div>
           <label>
             Provider
@@ -67,9 +67,9 @@ export function SystemActions() {
           </label>
           <label>
             API Key
-            <input readOnly value="sk-demo-••••••••••••" />
+            <input readOnly value="sk-••••••••••••" />
           </label>
-          <button type="button">保存演示配置</button>
+          <button type="button">保存配置</button>
         </div>
       ) : null}
     </section>
