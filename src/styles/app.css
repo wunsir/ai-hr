@@ -427,6 +427,17 @@ button {
   box-shadow: 0 0 0 2px oklch(80% 0.055 255 / 38%);
 }
 
+.case-file.priority-中 {
+  border-color: oklch(81% 0.03 255);
+  background: oklch(96.8% 0.01 255);
+}
+
+.case-file.priority-高 {
+  border-color: oklch(76% 0.048 255);
+  background: oklch(95.5% 0.018 255);
+  box-shadow: 0 0 0 1px oklch(83% 0.05 255 / 32%);
+}
+
 .case-file__top > span {
   display: grid;
   gap: 3px;
@@ -435,9 +446,9 @@ button {
 .case-file__top b,
 .eyebrow,
 .panel-kicker {
-  color: oklch(48% 0.018 255);
+  color: oklch(54% 0.014 255);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 630;
   letter-spacing: 0;
 }
 
@@ -460,6 +471,30 @@ button {
 .coverage-row {
   display: grid;
   gap: 4px;
+}
+
+.case-file__signals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.priority-tag.priority-低 {
+  border-color: oklch(84% 0.012 255);
+  color: oklch(39% 0.022 255);
+  background: oklch(97.5% 0.005 255);
+}
+
+.priority-tag.priority-中 {
+  border-color: oklch(75% 0.05 255);
+  color: oklch(34% 0.068 255);
+  background: oklch(94.5% 0.02 255);
+}
+
+.priority-tag.priority-高 {
+  border-color: oklch(74% 0.055 70);
+  color: oklch(40% 0.07 70);
+  background: oklch(95% 0.023 80);
 }
 
 .case-file__action {
@@ -553,9 +588,73 @@ button {
 
 .workspace-browser {
   display: grid;
-  grid-template-columns: minmax(160px, 0.32fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   align-items: start;
+}
+
+.workspace-journey {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.workspace-journey button {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border: 1px solid oklch(86% 0.014 255);
+  border-radius: 8px;
+  padding: 9px 10px;
+  color: oklch(40% 0.024 255);
+  background: oklch(98.3% 0.004 255);
+  text-align: left;
+}
+
+.workspace-journey button.is-active {
+  border-color: oklch(64% 0.072 255);
+  color: oklch(30% 0.06 255);
+  background: oklch(94.5% 0.022 255);
+}
+
+.workspace-journey button.is-complete {
+  border-color: oklch(79% 0.038 155);
+  background: oklch(96.8% 0.012 155);
+}
+
+.workspace-journey__index {
+  display: inline-flex;
+  min-width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid oklch(82% 0.016 255);
+  border-radius: 999px;
+  color: oklch(40% 0.026 255);
+  font-size: 11px;
+  font-weight: 760;
+}
+
+.workspace-journey button.is-active .workspace-journey__index {
+  border-color: oklch(71% 0.055 255);
+  color: oklch(30% 0.06 255);
+  background: oklch(95.5% 0.022 255);
+}
+
+.workspace-journey__copy {
+  display: grid;
+  gap: 2px;
+}
+
+.workspace-journey__copy strong {
+  color: oklch(27% 0.03 255);
+  font-size: 13px;
+}
+
+.workspace-journey__copy small {
+  color: oklch(47% 0.018 255);
+  font-size: 12px;
+  line-height: 1.32;
 }
 
 .workspace-directory {
@@ -601,9 +700,9 @@ button {
   display: grid;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid oklch(87% 0.012 255);
+  border: 1px solid oklch(82% 0.02 255);
   border-radius: 8px;
-  background: oklch(98.7% 0.004 255);
+  background: oklch(98.8% 0.004 255);
 }
 
 .workspace-detail__head {
@@ -612,7 +711,7 @@ button {
   flex-wrap: wrap;
   gap: 6px;
   border-bottom: 1px solid oklch(90% 0.01 255);
-  padding: 10px 12px;
+  padding: 11px 12px;
 }
 
 .workspace-detail__head span {
@@ -623,7 +722,28 @@ button {
 
 .workspace-detail__head strong {
   color: oklch(26% 0.03 255);
-  font-size: 14px;
+  font-size: 15px;
+}
+
+.workspace-focus-banner {
+  display: grid;
+  gap: 5px;
+  border-bottom: 1px solid oklch(90% 0.01 255);
+  padding: 10px 12px;
+  background: oklch(97.2% 0.008 255);
+}
+
+.workspace-focus-banner p,
+.workspace-focus-banner span {
+  margin: 0;
+  color: oklch(38% 0.028 255);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.workspace-focus-banner span {
+  color: oklch(34% 0.05 255);
+  font-weight: 700;
 }
 
 .workspace-submenu {
@@ -654,6 +774,15 @@ button {
   display: grid;
   gap: 12px;
   padding: 12px;
+  background: oklch(97.8% 0.006 255);
+}
+
+.stage-panel--primary .panel {
+  border: 1px solid oklch(84% 0.018 255);
+  border-top: 1px solid oklch(84% 0.018 255);
+  border-radius: 8px;
+  padding: 18px;
+  background: oklch(99% 0.003 255);
 }
 
 .summary-grid {
@@ -694,12 +823,19 @@ button {
   color: oklch(30% 0.03 255);
 }
 
-.panel h3,
+.panel h3 {
+  margin: 0 0 10px;
+  color: oklch(25% 0.03 255);
+  font-size: 16px;
+  font-weight: 780;
+  line-height: 1.35;
+}
+
 .panel h4,
 .boundary-notice h3,
 .package-view h3 {
   margin: 0 0 8px;
-  color: oklch(25% 0.03 255);
+  color: oklch(28% 0.026 255);
   font-size: 14px;
   line-height: 1.35;
 }
@@ -741,6 +877,18 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
+}
+
+.filter-stack {
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+}
+
+.filter-tabs--dimension button {
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 12px;
 }
 
 .inspector-panel {
@@ -1406,8 +1554,8 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .workspace-directory {
-    grid-template-columns: repeat(3, minmax(150px, 1fr));
+  .workspace-journey {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1440,15 +1588,13 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .workspace-directory {
+  .workspace-journey {
     display: flex;
     overflow-x: auto;
   }
 
-  .workspace-directory button {
-    min-width: 168px;
-    border-right: 1px solid oklch(89% 0.01 255);
-    border-bottom: 0;
+  .workspace-journey button {
+    min-width: 210px;
   }
 
   .workspace-submenu {

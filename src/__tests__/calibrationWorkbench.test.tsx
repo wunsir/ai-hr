@@ -46,6 +46,33 @@ describe("promotion assessment center AI calibration module", () => {
     expect(within(workpaper).getByText("持续引用频率可补充")).toBeInTheDocument();
   });
 
+  it("supports dimension filtering in evidence workpaper", async () => {
+    render(<App />);
+
+    const workpaper = screen.getByLabelText("证据表");
+
+    await userEvent.click(within(workpaper).getByRole("button", { name: "协作影响" }));
+
+    expect(within(workpaper).getAllByRole("article")).toHaveLength(1);
+    expect(within(workpaper).getByText("跨团队协作评价")).toBeInTheDocument();
+
+    await userEvent.click(within(workpaper).getByRole("button", { name: "已验证" }));
+
+    expect(within(workpaper).queryAllByRole("article")).toHaveLength(0);
+    expect(
+      within(workpaper).getByText("当前材料中未发现该状态的可确认线索。"),
+    ).toBeInTheDocument();
+  });
+
+  it("shows review priority and material package status in queue cards", () => {
+    render(<App />);
+
+    const caseB = screen.getByRole("button", { name: /档案 B/ });
+
+    expect(within(caseB).getByText("复核优先级：中")).toBeInTheDocument();
+    expect(within(caseB).getByText("材料包：已生成")).toBeInTheDocument();
+  });
+
   it("switches to the committee briefing without exposing employee input or governance details", async () => {
     render(<App />);
 

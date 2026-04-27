@@ -31,7 +31,9 @@ export function CaseFileQueue({
           return (
             <button
               aria-pressed={isSelected}
-              className={`case-file scenario-${caseFile.calibrationStatus} ${
+              className={`case-file scenario-${caseFile.calibrationStatus} priority-${
+                caseFile.reviewPriority
+              } ${
                 isSelected ? "is-selected" : ""
               }`}
               key={caseFile.id}
@@ -49,6 +51,12 @@ export function CaseFileQueue({
               <span className="case-file__meta">
                 <span>原 AI 建议：{caseFile.originalRecommendation}</span>
                 <span>待确认：{caseFile.queueSummary.unconfirmedCount} 项</span>
+              </span>
+              <span className="case-file__signals">
+                <span className={`priority-tag priority-${caseFile.reviewPriority}`}>
+                  复核优先级：{caseFile.reviewPriority}
+                </span>
+                <span className="plain-tag">材料包：{caseFile.materialPackageStatus}</span>
               </span>
               <span className="coverage-row">
                 {Object.entries(caseFile.queueSummary.evidenceCoverage).map(

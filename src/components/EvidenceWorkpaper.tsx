@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { EvidenceFilter } from "../App";
-import type { EvidenceItem } from "../types/calibration";
+import type { ContributionDimension, EvidenceItem } from "../types/calibration";
 import { EvidenceRow } from "./EvidenceRow";
 
 const filters: EvidenceFilter[] = ["全部", "已验证", "待确认", "证据不足"];
@@ -22,12 +22,26 @@ export function EvidenceWorkpaper({
   filter,
   onFilterChange,
 }: EvidenceWorkpaperProps) {
+  const dimensionFilters = useMemo<Array<ContributionDimension | "全部维度">>(
+    () => [
+      "全部维度",
+      ...Array.from(new Set(evidence.map((item) => item.dimension))),
+    ],
+    [evidence],
+  );
+  const [dimensionFilter, setDimensionFilter] = useState<ContributionDimension | "全部维度">(
+    "全部维度",
+  );
   const visibleEvidence = useMemo(
     () =>
       evidence
         .filter((item) => filter === "全部" || item.status === filter)
+        .filter(
+          (item) =>
+            dimensionFilter === "全部维度" || item.dimension === dimensionFilter,
+        )
         .sort((a, b) => statusOrder[a.status] - statusOrder[b.status]),
-    [evidence, filter],
+    [dimensionFilter, evidence, filter],
   );
   const [expandedId, setExpandedId] = useState<string | null>(
     () => visibleEvidence[0]?.id ?? null,
@@ -44,17 +58,31 @@ export function EvidenceWorkpaper({
           <span className="panel-kicker">证据列表</span>
           <h3>隐性贡献证据</h3>
         </div>
-        <div className="filter-tabs" aria-label="证据状态筛选">
-          {filters.map((item) => (
-            <button
-              className={filter === item ? "is-active" : ""}
-              key={item}
-              onClick={() => onFilterChange(item)}
-              type="button"
-            >
-              {item}
-            </button>
-          ))}
+        <div className="filter-stack">
+          <div className="filter-tabs" aria-label="证据状态筛选">
+            {filters.map((item) => (
+              <button
+                className={filter === item ? "is-active" : ""}
+                key={item}
+                onClick={() => onFilterChange(item)}
+                type="button"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <div className="filter-tabs filter-tabs--dimension" aria-label="证据维度筛选">
+            {dimensionFilters.map((item) => (
+              <button
+                className={dimensionFilter === item ? "is-active" : ""}
+                key={item}
+                onClick={() => setDimensionFilter(item)}
+                type="button"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
       <div className="evidence-list">

@@ -104,6 +104,7 @@ export function CandidateWorkspace({
   const activeItem =
     activeGroup.items.find((item) => item.id === activeSecondary) ??
     activeGroup.items[0];
+  const activeGroupIndex = directory.findIndex((group) => group.id === activePrimary);
 
   useEffect(() => {
     setActivePrimary(defaults.primary);
@@ -121,25 +122,39 @@ export function CandidateWorkspace({
       aria-label={`${caseFile.candidateLabel} AI 校准工作台`}
     >
       <CaseHeader caseFile={caseFile} />
-      <div className="workspace-browser">
-        <nav className="workspace-directory" aria-label="档案目录">
-          {directory.map((group) => (
+      <nav className="workspace-journey" aria-label="校准路径">
+        {directory.map((group, index) => {
+          const isActive = group.id === activePrimary;
+          const isCompleted = index < activeGroupIndex;
+
+          return (
             <button
-              aria-pressed={activePrimary === group.id}
-              className={activePrimary === group.id ? "is-active" : ""}
+              aria-pressed={isActive}
+              className={`${isActive ? "is-active" : ""} ${
+                isCompleted ? "is-complete" : ""
+              }`}
               key={group.id}
               onClick={() => handlePrimaryChange(group)}
               type="button"
             >
-              <span>{group.label}</span>
-              <small>{group.description}</small>
+              <span className="workspace-journey__index">{index + 1}</span>
+              <span className="workspace-journey__copy">
+                <strong>{group.label}</strong>
+                <small>{group.description}</small>
+              </span>
             </button>
-          ))}
-        </nav>
+          );
+        })}
+      </nav>
+      <div className="workspace-browser">
         <section className="workspace-detail">
           <div className="workspace-detail__head">
             <span>{activeGroup.label}</span>
             <strong>{activeItem.label}</strong>
+          </div>
+          <div className="workspace-focus-banner" aria-live="polite">
+            <p>{caseFile.queueSummary.shortCopy}</p>
+            <span>下一步：{caseFile.queueSummary.nextAction}</span>
           </div>
           <nav className="workspace-submenu" aria-label="材料分组">
             {activeGroup.items.map((item) => (
@@ -155,33 +170,35 @@ export function CandidateWorkspace({
             ))}
           </nav>
           <div className="workspace-stage">
-            {activeSecondary === "summary" ? <SummaryView caseFile={caseFile} /> : null}
-            {activeSecondary === "original" ? (
-              <OriginalAssessment caseFile={caseFile} />
-            ) : null}
-            {activeSecondary === "comparison" ? (
-              <CalibrationComparison comparison={caseFile.comparison} />
-            ) : null}
-            {activeSecondary === "coverage" ? (
-              <MaterialCoverageGap items={caseFile.materialCoverage} />
-            ) : null}
-            {activeSecondary === "evidence" ? (
-              <EvidenceWorkpaper
-                evidence={caseFile.evidence}
-                filter={evidenceFilter}
-                onFilterChange={onEvidenceFilterChange}
-              />
-            ) : null}
-            {activeSecondary === "risk" ? <ReviewPrompt caseFile={caseFile} /> : null}
-            {activeSecondary === "reviewSummary" ? (
-              <ReviewSummaryView caseFile={caseFile} />
-            ) : null}
-            {activeSecondary === "questions" ? (
-              <ReviewQuestionsView caseFile={caseFile} />
-            ) : null}
-            {activeSecondary === "unconfirmed" ? (
-              <UnconfirmedView caseFile={caseFile} />
-            ) : null}
+            <div className="stage-panel stage-panel--primary">
+              {activeSecondary === "summary" ? <SummaryView caseFile={caseFile} /> : null}
+              {activeSecondary === "original" ? (
+                <OriginalAssessment caseFile={caseFile} />
+              ) : null}
+              {activeSecondary === "comparison" ? (
+                <CalibrationComparison comparison={caseFile.comparison} />
+              ) : null}
+              {activeSecondary === "coverage" ? (
+                <MaterialCoverageGap items={caseFile.materialCoverage} />
+              ) : null}
+              {activeSecondary === "evidence" ? (
+                <EvidenceWorkpaper
+                  evidence={caseFile.evidence}
+                  filter={evidenceFilter}
+                  onFilterChange={onEvidenceFilterChange}
+                />
+              ) : null}
+              {activeSecondary === "risk" ? <ReviewPrompt caseFile={caseFile} /> : null}
+              {activeSecondary === "reviewSummary" ? (
+                <ReviewSummaryView caseFile={caseFile} />
+              ) : null}
+              {activeSecondary === "questions" ? (
+                <ReviewQuestionsView caseFile={caseFile} />
+              ) : null}
+              {activeSecondary === "unconfirmed" ? (
+                <UnconfirmedView caseFile={caseFile} />
+              ) : null}
+            </div>
           </div>
         </section>
       </div>
